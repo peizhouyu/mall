@@ -18,16 +18,24 @@
   <sql id="Base_Column_List" >
     id, username, password, email, phone, question, answer, role, create_time, update_time
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from mmall_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="checkUsername" resultType="java.lang.Integer">
+    select count(1) from mmall_user
+    where username = #{username}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="cn.mrpei.pojo.User" >
     insert into mmall_user (id, username, password, 
       email, phone, question, 
@@ -38,6 +46,7 @@
       #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(),
       now())
   </insert>
+
   <insert id="insertSelective" parameterType="cn.mrpei.pojo.User" >
     insert into mmall_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -105,6 +114,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.mrpei.pojo.User" >
     update mmall_user
     <set >
@@ -138,6 +148,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="cn.mrpei.pojo.User" >
     update mmall_user
     set username = #{username,jdbcType=VARCHAR},
@@ -151,4 +162,13 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    select
+      <include refid="Base_Column_List" />
+    from mmall_user
+    where username = #{username}
+    and password = #{password}
+  </select>
+
 </mapper>
