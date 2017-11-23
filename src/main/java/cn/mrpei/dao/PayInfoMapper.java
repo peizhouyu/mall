@@ -1,7 +1,9 @@
 package cn.mrpei.dao;
 
 import cn.mrpei.pojo.PayInfo;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PayInfoMapper {
     int deleteByPrimaryKey(Integer id);
 

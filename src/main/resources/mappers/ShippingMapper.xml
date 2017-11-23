@@ -31,7 +31,7 @@
     delete from mmall_shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.mrpei.pojo.Shipping" >
+  <insert id="insert" parameterType="cn.mrpei.pojo.Shipping" useGeneratedKeys="true" keyProperty="id">
     insert into mmall_shipping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
@@ -176,4 +176,65 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteByShippingIdUserId" parameterType="map">
+    delete from mmall_shipping
+    where id = #{shippingId}
+    and user_id = #{userId}
+  </delete>
+
+  <update id="updateByShipping" parameterType="cn.mrpei.pojo.Shipping">
+     update mmall_shipping
+    <set >
+      <if test="receiverName != null" >
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null" >
+        receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverProvince != null" >
+        receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCity != null" >
+        receiver_city = #{receiverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverDistrict != null" >
+        receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverZip != null" >
+        receiver_zip = #{receiverZip,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+
+        update_time = now(),
+
+    </set>
+      where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByShippingIdUserId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_shipping
+    where id = #{shippingId}
+    and user_id = #{userId}
+  </select>
+
+  <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_shipping
+    where user_id = #{userId}
+  </select>
+
+
 </mapper>

@@ -15,7 +15,7 @@
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 
-
+    <context:property-placeholder location="classpath:properties/datasource.properties" />
     <import resource="applicationContext-datasource.xml"/>
 
 
