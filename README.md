@@ -8,9 +8,11 @@
 
 ## 技术栈    
 - IDE: IntelliJ IDEA 
-- 项目架构: SpringMVC MyBatis Spring Maven
+- 项目架构: 前后端分离 Nginx + Tomcat 集群（后端）
+- 使用的框架及工具:SpringMVC MyBatis Spring Spring Session  Spring Schedule+Redisson分布式锁  Maven Jackson Lombok
 - 主数据库: Mysql5.7
+- 辅助缓存: redis3.2
 - 数据库访问层: MyBatis
-- 支付平台:支付宝
+- 消息中间件: RabbitMQ/3.6.10
 ## 当前版本 v1.0
 单服务器部署的 支持较少用户量的第一版
