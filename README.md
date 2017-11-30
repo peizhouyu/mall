@@ -5,11 +5,12 @@
 * 后台管理员 登录 授权 商品上下架 查看订单信息 安排发货
 * 后台交易数据量 统计 分析 实时查看  
 
-## 技术栈    
+## 技术栈       
 - IDE: IntelliJ IDEA 
-- 项目架构: SpringMVC MyBatis Spring Maven
+- 项目架构: 前后端分离 Nginx + Tomcat 集群（后端）
+- 使用的框架及工具:SpringMVC MyBatis Spring Spring Session  Spring Schedule+Redisson分布式锁  Maven Jackson Lombok
 - 主数据库: Mysql5.7
-- 辅数据库: redis3.2
+- 辅助缓存: redis3.2
 - 数据库访问层: MyBatis
 - 消息中间件: RabbitMQ/3.6.10
 ## 当前版本 v2.0
