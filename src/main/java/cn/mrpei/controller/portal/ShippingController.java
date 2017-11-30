@@ -3,6 +3,7 @@ package cn.mrpei.controller.portal;
 import cn.mrpei.common.Const;
 import cn.mrpei.common.ResponseCode;
 import cn.mrpei.common.ServerResponse;
+import cn.mrpei.controller.common.CommonMethod;
 import cn.mrpei.pojo.Shipping;
 import cn.mrpei.pojo.User;
 import cn.mrpei.service.ShippingService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -31,8 +33,8 @@ public class ShippingController {
 
     @RequestMapping("/add.do")
     @ResponseBody
-    public ServerResponse add(HttpSession session, Shipping shipping){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse add(HttpServletRequest httpServletRequest, Shipping shipping){
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要转到登录页！");
         }
@@ -41,8 +43,8 @@ public class ShippingController {
 
     @RequestMapping("/del.do")
     @ResponseBody
-    public ServerResponse del(HttpSession session, Integer shippingId){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse del(HttpServletRequest httpServletRequest, Integer shippingId){
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要转到登录页！");
         }
@@ -52,8 +54,8 @@ public class ShippingController {
 
     @RequestMapping("/update.do")
     @ResponseBody
-    public ServerResponse update(HttpSession session, Shipping shipping){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse update(HttpServletRequest httpServletRequest, Shipping shipping){
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要转到登录页！");
         }
@@ -63,8 +65,8 @@ public class ShippingController {
     //查看地址详情
     @RequestMapping("/select.do")
     @ResponseBody
-    public ServerResponse<Shipping> select(HttpSession session, Integer shippingId){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse<Shipping> select(HttpServletRequest httpServletRequest, Integer shippingId){
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要转到登录页！");
         }
@@ -74,10 +76,10 @@ public class ShippingController {
     //查看地址列表
     @RequestMapping("/list.do")
     @ResponseBody
-    public ServerResponse<PageInfo> list(HttpSession session,
+    public ServerResponse<PageInfo> list(HttpServletRequest httpServletRequest,
                                          @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                          @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要转到登录页！");
         }
