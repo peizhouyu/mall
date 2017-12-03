@@ -3,6 +3,7 @@ package cn.mrpei.controller.backend;
 import cn.mrpei.common.Const;
 import cn.mrpei.common.ResponseCode;
 import cn.mrpei.common.ServerResponse;
+import cn.mrpei.controller.common.CommonMethod;
 import cn.mrpei.pojo.User;
 import cn.mrpei.service.CategoryService;
 import cn.mrpei.service.OrderService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -40,10 +42,10 @@ public class OrderManageController {
 
     @RequestMapping("/list.do")
     @ResponseBody
-    public ServerResponse<PageInfo> orderList(HttpSession session,
+    public ServerResponse<PageInfo> orderList(HttpServletRequest httpServletRequest,
                                               @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
         }
@@ -59,8 +61,8 @@ public class OrderManageController {
 
     @RequestMapping("/detail.do")
     @ResponseBody
-    public ServerResponse<OrderVo> orderDetail(HttpSession session, Long orderNo){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse<OrderVo> orderDetail(HttpServletRequest httpServletRequest, Long orderNo){
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
         }
@@ -76,11 +78,11 @@ public class OrderManageController {
 
     @RequestMapping("/search.do")
     @ResponseBody
-    public ServerResponse<PageInfo> orderSearch(HttpSession session,
+    public ServerResponse<PageInfo> orderSearch(HttpServletRequest httpServletRequest,
                                                Long orderNo,
                                                @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
         }
@@ -96,8 +98,8 @@ public class OrderManageController {
 
     @RequestMapping("/send_goods.do")
     @ResponseBody
-    public ServerResponse<String> send_goods(HttpSession session, Long orderNo){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse<String> send_goods(HttpServletRequest httpServletRequest, Long orderNo){
+        User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
         }

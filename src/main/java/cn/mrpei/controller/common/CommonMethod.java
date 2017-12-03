@@ -4,7 +4,8 @@ import cn.mrpei.common.ServerResponse;
 import cn.mrpei.pojo.User;
 import cn.mrpei.util.CookieUtil;
 import cn.mrpei.util.JsonUtil;
-import cn.mrpei.util.RedisPoolUtil;
+import cn.mrpei.util.RedisShardedPoolUtil;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +22,7 @@ public class CommonMethod {
         if (loginToken == null){
             return null;
         }
-        String userJsonStr = RedisPoolUtil.get(loginToken);
+        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
         User user = JsonUtil.stringToObj(userJsonStr, User.class);
         return user;
     }

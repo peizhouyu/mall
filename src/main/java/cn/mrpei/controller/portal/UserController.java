@@ -8,7 +8,7 @@ import cn.mrpei.pojo.User;
 import cn.mrpei.service.UserService;
 import cn.mrpei.util.CookieUtil;
 import cn.mrpei.util.JsonUtil;
-import cn.mrpei.util.RedisPoolUtil;
+import cn.mrpei.util.RedisShardedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +48,7 @@ public class UserController {
             //session.setAttribute(Const.CURRENT_USER,response.getData());
             CookieUtil.writeLoginToken(httpServletResponse,session.getId());
 
-            RedisPoolUtil.setEx(session.getId(), JsonUtil.objToString(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+            RedisShardedPoolUtil.setEx(session.getId(), JsonUtil.objToString(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return response;
     }
@@ -59,7 +59,7 @@ public class UserController {
         //session.removeAttribute(Const.CURRENT_USER);
         String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         CookieUtil.delLoginToken(httpServletRequest,httpServletResponse);
-        RedisPoolUtil.del(loginToken);
+        RedisShardedPoolUtil.del(loginToken);
         return ServerResponse.createBySuccess();
     }
 
@@ -83,7 +83,7 @@ public class UserController {
 //        if (loginToken == null){
 //            return ServerResponse.createByErrorMessage("用户未登录");
 //        }
-//        String userJsonStr = RedisPoolUtil.get(loginToken);
+//        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
 //        User user = JsonUtil.stringToObj(userJsonStr, User.class);
         User user = CommonMethod.checkLoginStatus(httpServletRequest);
         if (user != null){
@@ -132,7 +132,7 @@ public class UserController {
         ServerResponse<User> response = userService.updateInformation(user);
         if (response.isSuccess()){
             String loginToken = CookieUtil.readLoginToken(httpServletRequest);
-            RedisPoolUtil.setEx(loginToken, JsonUtil.objToString(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+            RedisShardedPoolUtil.setEx(loginToken, JsonUtil.objToString(response.getData()),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return response;
     }
