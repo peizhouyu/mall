@@ -15,7 +15,10 @@
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 
-    <context:property-placeholder location="classpath:properties/datasource.properties" />
+    <context:property-placeholder location="classpath:properties/*.properties" />
+
+
+    <import resource="applicationContext-spring-session.xml"/>
     <import resource="applicationContext-datasource.xml"/>
 
 
