@@ -39,9 +39,12 @@ public class UserSpringSessionController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/login.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
+        //全局异常测试
+//        int a = 0;
+//        int b = 100/a;
         ServerResponse<User> response = userService.login(username, password);
         if (response.isSuccess()){
               session.setAttribute(Const.CURRENT_USER,response.getData());
@@ -51,7 +54,7 @@ public class UserSpringSessionController {
         return response;
     }
 
-    @RequestMapping(value = "/logout.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/logout.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> logout(HttpServletRequest httpServletRequest, HttpSession session, HttpServletResponse httpServletResponse){
         session.removeAttribute(Const.CURRENT_USER);
@@ -62,7 +65,7 @@ public class UserSpringSessionController {
     }
 
 
-    @RequestMapping(value = "/get_user_info.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_user_info.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> getUserInfo(HttpServletRequest httpServletRequest, HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
