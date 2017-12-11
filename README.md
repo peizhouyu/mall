@@ -13,5 +13,5 @@
 - 辅助缓存: redis3.2
 - 数据库访问层: MyBatis
 - 消息中间件: RabbitMQ/3.6.10
-## 当前版本 v2.5
-在v2.3的基础上使用 SpringMVC 拦截器实现权限统一校验 大量精简controller层代码
+## 当前版本 v2.6
+在v2.5的基础上使用 对接口实现SpringMVC RESTful改造
