@@ -14,7 +14,7 @@
 - 数据库访问层: MyBatis
 - 消息中间件: RabbitMQ/3.6.10
 ## 当前版本 v2.6
-在v2.5的基础上使用 对<br>
+在v2.5的基础上对<br>
 /product/detail.do<br>
 /product/list.do<br>
 两个接口实现SpringMVC RESTful改造
