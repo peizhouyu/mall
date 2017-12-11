@@ -45,17 +45,18 @@ public class OrderManageController {
     public ServerResponse<PageInfo> orderList(HttpServletRequest httpServletRequest,
                                               @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        //校验是否为管理员
-        if (userService.checkAdminRole(user).isSuccess()){
-            //是管理员
-            return orderService.manageList(pageNum,pageSize);
-        }else{
-            return ServerResponse.createByErrorMessage("需要管理员权限");
-        }
+//        User user = CommonMethod.checkLoginStatus(httpServletRequest);
+//        if (user == null){
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
+//        }
+//        //校验是否为管理员
+//        if (userService.checkAdminRole(user).isSuccess()){
+//            //是管理员
+//            return orderService.manageList(pageNum,pageSize);
+//        }else{
+//            return ServerResponse.createByErrorMessage("需要管理员权限");
+//        }
+        return orderService.manageList(pageNum,pageSize);
     }
 
 

@@ -49,5 +49,15 @@
         <property name="suffix" value=".html"></property>
     </bean>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- manage/a.do  /manage/* -->
+            <!--manage/product/save.do /manage/**-->
+            <mvc:mapping path="/manage/**"/>
+            <!--放行登录请求-->
+            <!--<mvc:exclude-mapping path="/manage/user/login.do" />-->
+            <bean class="cn.mrpei.controller.common.interceptor.AuthorityInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
