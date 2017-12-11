@@ -45,134 +45,70 @@ public class ProductManageController {
 
     @RequestMapping("/save.do")
     @ResponseBody
-    public ServerResponse productSave(HttpServletRequest httpServletRequest, Product product){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加产品业务逻辑
-            return productService.saveOrUpdateProduct(product);
-        }else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse productSave(Product product){
+        return productService.saveOrUpdateProduct(product);
     }
 
     @RequestMapping("/set_sale_status.do")
     @ResponseBody
-    public ServerResponse setSaleStatus(HttpServletRequest httpServletRequest, Product product){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加产品业务逻辑
-            return productService.setSaleStatus(product.getId(),product.getStatus());
-        }else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse setSaleStatus(Product product){
+        return productService.setSaleStatus(product.getId(),product.getStatus());
     }
 
     @RequestMapping("/detail.do")
     @ResponseBody
-    public ServerResponse getDetail(HttpServletRequest httpServletRequest, Integer productId){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加产品业务逻辑
-            return productService.manageProductDetail(productId);
-        }else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse getDetail(Integer productId){
+        //增加产品业务逻辑
+        return productService.manageProductDetail(productId);
     }
 
 
     @RequestMapping("/list.do")
     @ResponseBody
-    public ServerResponse getList(HttpServletRequest httpServletRequest, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加业务逻辑
-            return productService.getProductList(pageNum,pageSize);
-        }else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse getList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+        return productService.getProductList(pageNum,pageSize);
     }
 
 
     @RequestMapping("/search.do")
     @ResponseBody
-    public ServerResponse productSearch(HttpServletRequest httpServletRequest,String productName, Integer productId, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加业务逻辑
-            return productService.searchProduct(productName,productId,pageNum,pageSize);
-        }else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse productSearch(String productName, Integer productId, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+        return productService.searchProduct(productName,productId,pageNum,pageSize);
     }
 
     @RequestMapping("/upload.do")
     @ResponseBody
-    public ServerResponse upload(HttpServletRequest httpServletRequest, @RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请以管理员身份登录");
-        }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加业务逻辑
-            String path = request.getSession().getServletContext().getRealPath("upload");
-            String targetFileName = fileService.upload(file,path);
-            String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+ targetFileName;
+    public ServerResponse upload(@RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = fileService.upload(file,path);
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+ targetFileName;
 
-            Map fileMap = Maps.newHashMap();
-            fileMap.put("uri",targetFileName);
-            fileMap.put("url",url);
-            return ServerResponse.createBySuccess(fileMap);
-        }else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        Map fileMap = Maps.newHashMap();
+        fileMap.put("uri",targetFileName);
+        fileMap.put("url",url);
+        return ServerResponse.createBySuccess(fileMap);
     }
 
     @RequestMapping("/richtext_img_upload.do")
     @ResponseBody
-    public Map richtextImgUpload(HttpServletRequest httpServletRequest, @RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response){
+    public Map richtextImgUpload(@RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         //富文本中对于返回值有自己的要求，本项目前端使用 simditor 按照其官方文档要求进行返回
         Map resultMap = Maps.newHashMap();
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
+        //增加业务逻辑
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = fileService.upload(file,path);
+        if (StringUtils.isBlank(targetFileName)){
             resultMap.put("success",false);
-            resultMap.put("msg","请以管理员身份登录");
+            resultMap.put("msg","上传失败");
             return resultMap;
         }
-        if (userService.checkAdminRole(user).isSuccess()){
-            //增加业务逻辑
-            String path = request.getSession().getServletContext().getRealPath("upload");
-            String targetFileName = fileService.upload(file,path);
-            if (StringUtils.isBlank(targetFileName)){
-                resultMap.put("success",false);
-                resultMap.put("msg","上传失败");
-                return resultMap;
-            }
-            String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+ targetFileName;
-            resultMap.put("success",true);
-            resultMap.put("msg","上传成功");
-            resultMap.put("file_path",url);
-            response.addHeader("Access-Control-Allow-Headers","X-File-Name");
-            return resultMap;
-        }else {
-            resultMap.put("success",false);
-            resultMap.put("msg","无权限操作");
-            return resultMap;
-        }
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+ targetFileName;
+        resultMap.put("success",true);
+        resultMap.put("msg","上传成功");
+        resultMap.put("file_path",url);
+        response.addHeader("Access-Control-Allow-Headers","X-File-Name");
+        return resultMap;
+
     }
 
 

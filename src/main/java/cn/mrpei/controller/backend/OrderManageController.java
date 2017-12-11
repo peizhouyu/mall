@@ -42,75 +42,32 @@ public class OrderManageController {
 
     @RequestMapping("/list.do")
     @ResponseBody
-    public ServerResponse<PageInfo> orderList(HttpServletRequest httpServletRequest,
-                                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+    public ServerResponse<PageInfo> orderList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-//        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-//        if (user == null){
-//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-//        }
-//        //校验是否为管理员
-//        if (userService.checkAdminRole(user).isSuccess()){
-//            //是管理员
-//            return orderService.manageList(pageNum,pageSize);
-//        }else{
-//            return ServerResponse.createByErrorMessage("需要管理员权限");
-//        }
         return orderService.manageList(pageNum,pageSize);
     }
 
 
     @RequestMapping("/detail.do")
     @ResponseBody
-    public ServerResponse<OrderVo> orderDetail(HttpServletRequest httpServletRequest, Long orderNo){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        //校验是否为管理员
-        if (userService.checkAdminRole(user).isSuccess()){
-            //是管理员
-            return orderService.manageDetail(orderNo);
-        }else{
-            return ServerResponse.createByErrorMessage("需要管理员权限");
-        }
+    public ServerResponse<OrderVo> orderDetail(Long orderNo){
+        return orderService.manageDetail(orderNo);
     }
 
 
     @RequestMapping("/search.do")
     @ResponseBody
-    public ServerResponse<PageInfo> orderSearch(HttpServletRequest httpServletRequest,
-                                               Long orderNo,
+    public ServerResponse<PageInfo> orderSearch(Long orderNo,
                                                @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        //校验是否为管理员
-        if (userService.checkAdminRole(user).isSuccess()){
-            //是管理员
-            return orderService.manageSearch(orderNo,pageNum,pageSize);
-        }else{
-            return ServerResponse.createByErrorMessage("需要管理员权限");
-        }
+        return orderService.manageSearch(orderNo,pageNum,pageSize);
     }
 
 
     @RequestMapping("/send_goods.do")
     @ResponseBody
-    public ServerResponse<String> send_goods(HttpServletRequest httpServletRequest, Long orderNo){
-        User user = CommonMethod.checkLoginStatus(httpServletRequest);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        //校验是否为管理员
-        if (userService.checkAdminRole(user).isSuccess()){
-            //是管理员
-            return orderService.manageSendGoods(orderNo);
-        }else{
-            return ServerResponse.createByErrorMessage("需要管理员权限");
-        }
+    public ServerResponse<String> send_goods(Long orderNo){
+        return orderService.manageSendGoods(orderNo);
     }
 
 
