@@ -1,6 +1,7 @@
 package cn.mrpei.cache;
 
 import cn.mrpei.util.PropertiesUtil;
+import org.springframework.beans.factory.annotation.Value;
 import redis.clients.jedis.*;
 import redis.clients.util.Hashing;
 import redis.clients.util.Sharded;
@@ -14,12 +15,13 @@ import java.util.List;
  *      集群是个物理形态，分布式是个工作方式。
  * @author 裴周宇
  */
+
 public class RedisShardedPool {
 
     //Shardedjedis 连接池
     private static ShardedJedisPool pool;
 
-    //IP
+//    IP
     private static String redis1Ip = PropertiesUtil.getProperty("redis1.ip");
     //port
     private static Integer redis1Port = Integer.parseInt(PropertiesUtil.getProperty("redis1.port"));
@@ -33,6 +35,19 @@ public class RedisShardedPool {
     //password
     private static String redis2Password = PropertiesUtil.getProperty("redis2.password");
 
+//    @Value("${redis1.ip}")
+//    private static String redis1Ip;
+//    @Value("${redis1.port}")
+//    private static Integer redis1Port;
+//    @Value("${redis1.password}")
+//    private static String redis1Password;
+//
+//    @Value("${redis2.ip}")
+//    private static String redis2Ip;
+//    @Value("${redis2.port}")
+//    private static Integer redis2Port;
+//    @Value("${redis2.password}")
+//    private static String redis2Password;
 
     //最大连接数
     private static Integer maxTotal = Integer.parseInt(PropertiesUtil.getProperty("redis.max.total","20"));
@@ -47,6 +62,12 @@ public class RedisShardedPool {
 
     private static void initPool(){
         JedisPoolConfig config = new JedisPoolConfig();
+//        System.out.println(redis1Ip);
+//        System.out.println(redis1Port);
+//        System.out.println(redis1Password);
+//        System.out.println(redis2Ip);
+//        System.out.println(redis2Port);
+//        System.out.println(redis2Password);
 
         config.setMaxTotal(maxTotal);
         config.setMaxIdle(maxIdle);
@@ -88,15 +109,7 @@ public class RedisShardedPool {
         pool.returnBrokenResource(jedis);
     }
 
-    public static void main(String[] args) {
-        System.out.println(redis1Ip);
-        System.out.println(redis2Ip);
-        System.out.println(redis1Password);
-        System.out.println(redis2Password);
-        ShardedJedis jedis = pool.getResource();
-        for (int i = 0;i<10;i++){
-            jedis.set("key"+i,"value"+i);
-        }
-        System.out.println("end");
-    }
+
+
+
 }

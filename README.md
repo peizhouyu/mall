@@ -15,4 +15,5 @@
 - 消息中间件: RabbitMQ/3.6.10
 ## 当前版本 v2.7
 在v2.6的基础上<br>
-使用Spring Schedule实现定时关闭订单
+使用Spring Schedule+Redisson实现分布式环境下的定时关闭订单
+
