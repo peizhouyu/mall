@@ -13,8 +13,6 @@
 - 辅助缓存: redis3.2
 - 数据库访问层: MyBatis
 - 消息中间件: RabbitMQ/3.6.10
-## 当前版本 v2.6
-在v2.5的基础上对<br>
-/product/detail.do<br>
-/product/list.do<br>
-两个接口实现SpringMVC RESTful改造
+## 当前版本 v2.7
+在v2.6的基础上<br>
+使用Spring Schedule实现定时关闭订单
